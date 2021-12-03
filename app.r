@@ -30,7 +30,7 @@ server = function(input,output, session) {
     
     ### Loading message + show iterations
     showModal(modalDialog(
-      title = "Important message",
+      title = "Loading...",
       fluidRow(verbatimTextOutput("text",T), )
     ))
     
