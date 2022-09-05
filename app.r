@@ -1,20 +1,21 @@
 library(shiny)
 library(shinyalert)
+library(shinyjs)
 
 ### Function that we want the user to trace
 foo <- function(a) {
-  for (i in 1:100){
-    Sys.sleep(0.05)
+  for (i in 1:15){
+    Sys.sleep(0.1)
     message("Iteration numero : ", as.character(i))
     a=a+1
   }
   return(a)
 }
 
-ui = fluidPage(
+ui <-  fluidPage(
   useShinyalert(),
-  tags$head(tags$style("#text{color:blue; font-size:15px; font-style:bold; 
- max-height: 170px;}")),
+  tags$head(tags$style("#text{color:blue; font-size:15px; font-style:bold;max-height: 170px;
+                       overflow:auto; display:flex; flex-direction:column-reverse;}")),
   shinyjs::useShinyjs(),
   actionButton("btn","Click me"),
   textInput("a",'a input :'),
@@ -31,7 +32,7 @@ server = function(input,output, session) {
     ### Loading message + show iterations
     showModal(modalDialog(
       title = "Loading...",
-      fluidRow(verbatimTextOutput("text",T), )
+      fluidRow(verbatimTextOutput("text",T)),
     ))
     
     withCallingHandlers({
@@ -40,7 +41,6 @@ server = function(input,output, session) {
     },
     message = function(m) {
       shinyjs::html(id = "text", html = m$message, add = TRUE)
-      
     })
     
     ### Remove modal
